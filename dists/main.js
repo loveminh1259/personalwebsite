@@ -1,5 +1,5 @@
 const menus = $(".navbar-menu li");
-console.log(menus);
+const navLinks = document.querySelectorAll(".navbar-menu li");
 for (let index = 0; index < menus.length; index++) {
   const element = menus[index];
   element.addEventListener("click", function (e) {
@@ -11,7 +11,6 @@ $(window).scroll(function () {
   var scroll = $(window).scrollTop();
   if (scroll > 50) {
     $(".nav-content").css("position", "fixed");
-    $(".nav-content").css("background", "black");
     $(".nav-content").css("top", "0");
   } else {
     $(".nav-content").css("position", "relative");
@@ -32,7 +31,6 @@ $(window).scroll(function () {
   }
 }); //missing );
 calcPaths(3)
-
 function calcPaths(totalDur) {
   // unset 'animated' class to body which will reset the animation
   document.body.classList.remove('animated')
@@ -66,7 +64,7 @@ function calcPaths(totalDur) {
     const duration = totalLen / len * totalDuration
 
     // set animation duration and delay
-    pathElem.style.animationDuration = `${duration < 0.001 ? 0.001 : duration}s`
+    pathElem.style.animationDuration = `${duration < 0.0001 ? 0.0001 : duration}s`
     pathElem.style.animationDelay = `${delay}s`
     console.log(duration)
     // set dash array and offset to path length - this is how you hide the line
@@ -83,4 +81,24 @@ function calcPaths(totalDur) {
   return true
 }
 
-calcPaths()
+var isShowed = false;
+const hambuger = document.querySelector(".hamburger");
+const navBar = $('.navbar-menu');
+
+hambuger.addEventListener("click", () => {
+  if(!isShowed) {
+    navBar.addClass("opened");
+    navLinks.forEach((element, index) => {
+        element.style.animation = `navLinkFadeIn 0.5s ease forwards ${0.3 * index}s`;
+    })
+    hambuger.classList.add("clicked");
+  } else {
+    navBar.removeClass("opened");
+    navLinks.forEach((element) => {
+      element.style.animation = "";
+  })
+    hambuger.classList.remove("clicked");
+  }
+
+  isShowed = !isShowed;
+})
